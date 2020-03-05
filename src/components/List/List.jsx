@@ -3,23 +3,50 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Typography
+  Typography,
+  IconButton,
+  Table,
+  TableContainer,
+  TableRow,
+  TableCell,
+  TableBody
 } from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { Delete, ExpandMore } from '@material-ui/icons'
+import { TABLE_HEADER } from '../../core/constants/values'
 
-const List = ({ expanded, handleExpantion, deleteEmployee, employee }) => {
+const List = ({ expanded, handleExpantion, handleDelete, employee }) => {
   return (
       <ExpansionPanel expanded={expanded} onChange={handleExpantion}>
         <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ExpandMore />}
         >
           <Typography>{employee.name}</Typography>
-          <Typography>Monthly compoensation is {employee.compensation || 'Not informed'}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Typography>
-            {employee.name} do {employee.distance} from home to work {employee.days} days a week using the {employee.transport} as transport.
-          </Typography>
+          <TableContainer>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell component="th" scope="row">Delete register</TableCell>
+                  <TableCell align="right">
+                    <IconButton aria-label="delete" onClick={() => handleDelete(employee)}>
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+                {
+                  TABLE_HEADER.map(({ name, propertyKey }) => (
+                    <TableRow key={name}>
+                      <TableCell component="th" scope="row">
+                        {name}
+                      </TableCell>
+                      <TableCell align="right">{employee[propertyKey]}</TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </ExpansionPanelDetails>
       </ExpansionPanel>
   );

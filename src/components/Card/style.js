@@ -7,5 +7,5 @@ export const StyledCard = styled(Card)`
   min-height: 40vh;
   padding: 32px 24px;
   border-radius: 24px;
-  margin: 0 auto;
+  margin: 8px auto;
 `

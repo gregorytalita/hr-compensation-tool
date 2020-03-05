@@ -6,7 +6,8 @@ import {
   MenuItem, 
   TextField,
   Button,
-  Typography
+  Typography,
+  Box
 } from '@material-ui/core'
 import { Card } from '../../components'
 import { getCompensationValue, distanceCompensation, monthlyDistance, isDouble } from '../../core/functions'
@@ -19,20 +20,18 @@ const AddRecordStep = ({ handleForm, handleStepNext }) => {
     const compensationValue = getCompensationValue(data.transport.toLowerCase())
     const doubleValue = isDouble(data.transport.toLowerCase(), data.distance)
     
-    const distance = monthlyDistance(data.distance, data.days)
+    const distancePerMonth = monthlyDistance(data.distance, data.days)
     const monthlyCompensation = distanceCompensation(monthlyDistance, compensationValue, doubleValue) * 2
-
 
     handleForm({
       ...data,
-      distance,
+      distancePerMonth,
       monthlyCompensation
     })
 
     setData({})
     handleStepNext()
   }
-
 
   return (
     <Card>
@@ -49,13 +48,11 @@ const AddRecordStep = ({ handleForm, handleStepNext }) => {
 
       <TextField
         fullWidth
-        id="date"
         label="Payment Day"
-        type="date"
-        defaultValue={new Date()}
-        InputLabelProps={{
-          shrink: true,
-        }}
+        type="number"
+        margin='normal'
+        defaultValue={new Date().getDay()}
+        onChange={({ target }) => setData(currentData => ({ ...currentData, paymentDay: target.value}))}
       />
 
       <FormControl fullWidth>
@@ -89,9 +86,13 @@ const AddRecordStep = ({ handleForm, handleStepNext }) => {
         onChange={({ target }) => setData(currentData => ({ ...currentData, days: target.value}))}
       />
 
-      <Button variant='outlined' color='secondary' onClick={handleSubmit}>
-        Save
-      </Button>
+      <Box display="flex" justifyContent="flex-end">
+        <Button variant='outlined' color='secondary' onClick={
+          Object.entries(data).length ? handleSubmit : null
+        }>
+          Save
+        </Button>
+      </Box>
     </Card>
   )
 }

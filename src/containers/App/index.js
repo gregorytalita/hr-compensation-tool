@@ -15,9 +15,11 @@ const App = () => {
 
   const addEmployee = (employeeObject) => setEmployees(currentEmployees => [ ...currentEmployees, employeeObject])
 
-  const deleteEmployee = (employeeId) => setEmployees(currentEmployees => (
-    currentEmployees.filter(({ id }) => id !== employeeId)
-  ))
+  const deleteEmployee = (employeeReference) => {
+    const currentEmployees = employees.filter(employee => employee !== employeeReference)
+    
+    setEmployees(currentEmployees)
+  }
 
   const steps = [
     <AddRecordStep handleForm={addEmployee} handleStepNext={handleStepNext}/>,
