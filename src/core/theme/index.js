@@ -16,7 +16,7 @@ export const theme = createMuiTheme({
       dark: styles.colors.blue.main
     },
     secondary: {
-      main: styles.colors.white,
+      main: styles.colors.blue.dark,
       contrastText: styles.colors.blue.main
     },
     error: {
